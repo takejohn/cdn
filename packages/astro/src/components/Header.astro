@@ -1,25 +1,49 @@
 ---
 import UploadButton from "../components/UploadButton.astro";
 import IconButton from "./IconButton.astro";
+import Link from "./Link.astro";
+
+interface Props {
+    path: string[];
+}
+
+const { path } = Astro.props;
 ---
 
 <div class="header">
-    <div class="title-box">
-        <h1>CDN File list</h1>
+    <div class="header-top">
+        <div class="title-box">
+            <h1>CDN File list</h1>
+        </div>
+        <div class="button-box">
+            <IconButton id="list-layout-button" title="リスト形式" src="/static/list.svg" />
+        </div>
+        <div class="button-box">
+            <IconButton id="grid-layout-button" title="グリッド形式" src="/static/grid.svg" />
+        </div>
+        <div class="button-box">
+            <UploadButton />
+        </div>
     </div>
-    <div class="button-box">
-        <IconButton id="list-layout-button" title="リスト形式" src="/static/list.svg" />
-    </div>
-    <div class="button-box">
-        <IconButton id="grid-layout-button" title="グリッド形式" src="/static/grid.svg" />
-    </div>
-    <div class="button-box">
-        <UploadButton />
+    <div class="header-bottom">
+        <p>
+            <Link href="/"/>
+            {() => {
+                const result = [];
+                for (const dirname of path) {
+                    result.push(
+                        <span>&gt;</span>,
+                        <Link href={dirname} />
+                    );
+                }
+                return result;
+            }}
+        </p>
     </div>
 </div>
 
 <style>
-    .header {
+    .header-top {
         display: flex;
         top: 0;
         margin-bottom: 8px;
